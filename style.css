@@ -488,7 +488,7 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
 .puzzle-actions, .notebook-controls { display: flex; align-items: center; justify-content: space-between; gap: .7rem; flex-wrap: wrap; }
 .puzzle-status { flex: 1 1 12rem; margin: 0; color: var(--berry); font-weight: 700; }
 
-.phone-card { width: min(22rem, 100%); }
+.phone-card { width: min(19rem, 100%); }
 .phone-shell { width: min(17rem, 100%); margin: 0 auto; padding: .85rem; border: 5px solid rgba(47, 37, 32, .96); border-radius: 2.2rem; background: linear-gradient(145deg, #6a453d, #2d211d); box-shadow: 0 1.6rem 3rem rgba(0, 0, 0, .28); }
 .phone-lock-screen { display: block; width: 100%; aspect-ratio: 9 / 16; border: 3px solid rgba(47, 37, 32, .96); border-radius: 1.45rem; background: radial-gradient(circle at 50% 20%, rgba(255,255,255,.08), transparent 46%), #090909; }
 .phone-lock-screen.awake { display: none; }
@@ -512,6 +512,11 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
   background: linear-gradient(180deg, #fff8dc, #ffe4b5);
   color: var(--ink);
 }
+.phone-unlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .phone-hint { margin: 0 0 .8rem; text-align: center; font-size: .78rem; }
 .pin-display { display: grid; grid-template-columns: repeat(4, 1fr); gap: .55rem; width: 10rem; margin: 0 auto 1rem; }
 .pin-display span { height: 2.25rem; border: 2px solid rgba(255, 244, 232, .55); border-radius: .5rem; background: rgba(0, 0, 0, .35); text-align: center; line-height: 2rem; }
@@ -523,6 +528,10 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
     radial-gradient(circle at 50% 0, rgba(245, 215, 166, .34), transparent 9rem),
     radial-gradient(circle at 12% 20%, rgba(255,255,255,.08), transparent 7rem),
     var(--phone-wallpaper) center / cover;
+}
+.phone-home {
+  display: flex;
+  flex-direction: column;
 }
 .tiktok-screen { display: flex; flex-direction: column; background: #060606; }
 .whatsapp-screen {
@@ -588,7 +597,15 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
 }
 .phone-home-top { display: flex; justify-content: space-between; margin-bottom: 1.4rem; font-size: .75rem; }
 .instagram-top, .music-top, .notes-top, .piano-top, .whatsapp-top, .gallery-top { align-items: center; margin-bottom: .7rem; font-weight: 700; }
-.app-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .85rem; }
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(5.2rem, 7rem));
+  justify-content: center;
+  align-content: center;
+  gap: .85rem;
+  width: min(100%, 15rem);
+  margin: auto;
+}
 .phone-app { display: grid; place-items: end center; min-height: 5.2rem; padding: .55rem .3rem; border: 0; border-radius: 1.15rem; overflow: hidden; color: #fffdf8; font-size: .72rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0, 0, 0, .8); box-shadow: inset 0 -2.2rem 0 rgba(0, 0, 0, .30), 0 .4rem 1rem rgba(74, 47, 35, .16); background-color: #263b38; background-position: center; background-size: cover; transition: transform .15s ease, box-shadow .15s ease, filter .15s ease; }
 .phone-app:hover { transform: translateY(-2px); box-shadow: inset 0 -2.2rem 0 rgba(0, 0, 0, .36), 0 .5rem 1rem rgba(74, 47, 35, .20); filter: saturate(1.04); }
 .gallery-app { background-image: url(phone/photos.png); }
@@ -602,8 +619,8 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
 .phone-login-form label { font-size: .72rem; font-weight: 700; }
 .phone-login-form input { width: 100%; min-height: 2.55rem; border: 2px solid rgba(255, 247, 239, .72); border-radius: .7rem; padding: .45rem .65rem; background: rgba(255, 247, 239, .96); color: var(--chocolate-escape); font: inherit; box-shadow: inset 0 1px 0 rgba(255,255,255,.55); }
 .phone-login-button { min-height: 2.7rem; margin-top: .4rem; border: 2px solid rgba(255, 247, 239, .82); border-radius: .8rem; background: linear-gradient(180deg, #f7deb1, #efc67f); color: var(--chocolate-escape); font-weight: 700; text-transform: uppercase; box-shadow: 0 .3rem .8rem rgba(74, 47, 35, .12); }
-.tiktok-stage { display: grid; place-items: center; flex: 1 1 auto; min-height: 11rem; width: 100%; aspect-ratio: 9 / 14; overflow: hidden; border: 2px solid rgba(255, 247, 239, .24); border-radius: 1rem; background: linear-gradient(180deg, #151515, #0d0d0d); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
-.tiktok-stage img, .tiktok-stage video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tiktok-stage { display: grid; place-items: center; flex: 1 1 0; min-height: 0; width: 100%; overflow: hidden; border: 2px solid rgba(255, 247, 239, .24); border-radius: 1rem; background: #000; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
+.tiktok-stage img, .tiktok-stage video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
 .tiktok-message { padding: 1rem; color: var(--cream); font-size: .78rem; line-height: 1.55; text-align: center; }
 .tiktok-next-button { display: block; min-height: 2.2rem; margin: .7rem auto 0; padding: .35rem .75rem; border: 2px solid rgba(255, 247, 239, .74); border-radius: 999px; background: linear-gradient(180deg, rgba(255, 247, 239, .96), rgba(245, 215, 166, .92)); color: #111; font-size: .68rem; font-weight: 700; text-transform: uppercase; box-shadow: 0 .25rem .7rem rgba(74, 47, 35, .18); }
 .tiktok-next-button[hidden] { display: none; }
@@ -1018,7 +1035,8 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
 /* Final phone sizing: mini-games use the exact same phone frame as every other app. */
 .phone-shell,
 .phone-shell.mini-game-phone {
-  width: min(22rem, 100%);
+  width: min(17rem, 100%);
+  max-width: 17rem;
   box-sizing: border-box;
 }
 
@@ -1026,9 +1044,9 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
 .tiktok-screen, .instagram-screen, .instagram-leaf-game, .notes-screen, .music-screen,
 .piano-tiles-screen, .pancake-game-screen {
   box-sizing: border-box;
-  height: min(70dvh, 38rem);
-  min-height: min(28rem, 70dvh);
-  max-height: 38rem;
+  height: min(70dvh, 28rem);
+  min-height: min(24rem, 70dvh);
+  max-height: 28rem;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -1188,19 +1206,18 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
 
 @media (max-width: 480px) {
   .modal { padding: max(.5rem, env(safe-area-inset-top)) max(.5rem, env(safe-area-inset-right)) max(.5rem, env(safe-area-inset-bottom)) max(.5rem, env(safe-area-inset-left)); }
-  .phone-card { width: min(24rem, 100%); }
+  .phone-card { width: min(19rem, 100%); }
   .phone-shell { padding: .55rem; border-width: 4px; border-radius: 1.7rem; }
   .phone-back-button, .close-button { width: 2.75rem; height: 2.75rem; min-width: 2.75rem; min-height: 2.75rem; }
   .phone-unlock, .phone-home, .phone-login, .gallery-lock-screen, .gallery-screen,
   .tiktok-screen, .instagram-screen, .instagram-leaf-game, .notes-screen, .music-screen,
-  .piano-tiles-screen, .pancake-game-screen { height: min(72dvh, 40rem); min-height: min(24rem, 72dvh); max-height: 40rem; }
+  .piano-tiles-screen, .pancake-game-screen { height: min(72dvh, 28rem); min-height: min(24rem, 72dvh); max-height: 28rem; }
   .desk-screen { padding: .7rem; }
   .desk { gap: .8rem; padding: 1rem; }
   .case-steps { padding: .7rem; }
   .case-steps-status, .case-steps li { overflow-wrap: anywhere; }
   .focus-card { max-height: calc(100dvh - 1rem); overflow-y: auto; overscroll-behavior: contain; }
   .photo-puzzle { width: min(100%, 18rem); }
-  .tiktok-stage { min-height: 10rem; }
   .instagram-photo-frame { max-height: min(58vw, 13rem); }
   .music-cover { width: clamp(6rem, 34vw, 8rem); }
   .cake { width: min(14rem, 64vw); height: auto; aspect-ratio: 14 / 11; margin-bottom: 1rem; }
