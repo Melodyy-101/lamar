@@ -23,6 +23,11 @@
 
 [hidden] { display: none !important; }
 
+img, video, canvas {
+  display: block;
+  max-inline-size: 100%;
+}
+
 
 body {
   margin: 0;
@@ -519,7 +524,7 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
     radial-gradient(circle at 12% 20%, rgba(255,255,255,.08), transparent 7rem),
     var(--phone-wallpaper) center / cover;
 }
-.tiktok-screen { background: #060606; }
+.tiktok-screen { display: flex; flex-direction: column; background: #060606; }
 .whatsapp-screen {
   display: flex;
   flex-direction: column;
@@ -597,7 +602,7 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
 .phone-login-form label { font-size: .72rem; font-weight: 700; }
 .phone-login-form input { width: 100%; min-height: 2.55rem; border: 2px solid rgba(255, 247, 239, .72); border-radius: .7rem; padding: .45rem .65rem; background: rgba(255, 247, 239, .96); color: var(--chocolate-escape); font: inherit; box-shadow: inset 0 1px 0 rgba(255,255,255,.55); }
 .phone-login-button { min-height: 2.7rem; margin-top: .4rem; border: 2px solid rgba(255, 247, 239, .82); border-radius: .8rem; background: linear-gradient(180deg, #f7deb1, #efc67f); color: var(--chocolate-escape); font-weight: 700; text-transform: uppercase; box-shadow: 0 .3rem .8rem rgba(74, 47, 35, .12); }
-.tiktok-stage { display: grid; place-items: center; height: 20.7rem; overflow: hidden; border: 2px solid rgba(255, 247, 239, .24); border-radius: 1rem; background: linear-gradient(180deg, #151515, #0d0d0d); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
+.tiktok-stage { display: grid; place-items: center; flex: 1 1 auto; min-height: 11rem; width: 100%; aspect-ratio: 9 / 14; overflow: hidden; border: 2px solid rgba(255, 247, 239, .24); border-radius: 1rem; background: linear-gradient(180deg, #151515, #0d0d0d); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
 .tiktok-stage img, .tiktok-stage video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .tiktok-message { padding: 1rem; color: var(--cream); font-size: .78rem; line-height: 1.55; text-align: center; }
 .tiktok-next-button { display: block; min-height: 2.2rem; margin: .7rem auto 0; padding: .35rem .75rem; border: 2px solid rgba(255, 247, 239, .74); border-radius: 999px; background: linear-gradient(180deg, rgba(255, 247, 239, .96), rgba(245, 215, 166, .92)); color: #111; font-size: .68rem; font-weight: 700; text-transform: uppercase; box-shadow: 0 .25rem .7rem rgba(74, 47, 35, .18); }
@@ -733,6 +738,7 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  flex: 1 1 auto;
   gap: .28rem;
   min-height: 0;
   overflow-y: auto;
@@ -863,7 +869,7 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
   70% { transform: translateX(.25rem); }
 }
 .music-now-playing { display: grid; gap: .45rem; padding: .75rem; border-radius: 1rem; background: rgba(0, 0, 0, .32); }
-.music-cover { width: 8.4rem; aspect-ratio: 1; margin: 0 auto .25rem; border-radius: .65rem; background: linear-gradient(135deg, #1db954, #111); background-position: center; background-size: cover; box-shadow: 0 .8rem 1.2rem rgba(0, 0, 0, .28); }
+.music-cover { width: min(8.4rem, 46vw); aspect-ratio: 1; margin: 0 auto .25rem; border-radius: .65rem; background: linear-gradient(135deg, #1db954, #111); background-position: center; background-size: cover; box-shadow: 0 .8rem 1.2rem rgba(0, 0, 0, .28); }
 .music-title, .music-artist { margin: 0; text-align: center; }
 .music-title { font-weight: 700; }
 .music-artist { color: rgba(246, 255, 248, .72); font-size: .72rem; }
@@ -1193,6 +1199,11 @@ body, h1, h2, h3, .tiny-label { letter-spacing: 0.02em; }
   .case-steps { padding: .7rem; }
   .case-steps-status, .case-steps li { overflow-wrap: anywhere; }
   .focus-card { max-height: calc(100dvh - 1rem); overflow-y: auto; overscroll-behavior: contain; }
+  .photo-puzzle { width: min(100%, 18rem); }
+  .tiktok-stage { min-height: 10rem; }
+  .instagram-photo-frame { max-height: min(58vw, 13rem); }
+  .music-cover { width: clamp(6rem, 34vw, 8rem); }
+  .cake { width: min(14rem, 64vw); height: auto; aspect-ratio: 14 / 11; margin-bottom: 1rem; }
   button, input, textarea { touch-action: manipulation; }
 }
 
