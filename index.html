@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="A cozy birthday mystery puzzle game.">
+    <meta name="theme-color" content="#e7c6b2">
+  <title>Missing: Cozy Case File</title>
+  <link rel="stylesheet" href="style.css?v=20260810.2">
+  <style>
+    @font-face {
+      font-family: 'CafeFont';
+      src: url('fonts/cafefont.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+  <script src="script.js?v=20260810.2" defer></script>
+</head>
+<body>
+  <div id="locationTransition" class="location-transition" hidden aria-hidden="true">
+    <div class="location-transition-text">...</div>
+  </div>
+
+  <section id="endingScreen" class="ending-screen" hidden aria-label="Birthday surprise">
+    <audio id="happyBirthdayAudio" src="music/happy.mpeg" preload="auto"></audio>
+    <div class="birthday-scene">
+      <p class="tiny-label">you made it</p>
+      <h1>Happy Birthday!</h1>
+      <div class="cake" aria-label="Birthday cake"><img src="cake.png" alt="Birthday cake" class="cake-image"></div>
+      <button id="birthdayLetter" class="birthday-letter" type="button" aria-label="Open the final letter"><span class="birthday-letter-fold"></span><span class="birthday-letter-label">A letter for you</span></button>
+      <button id="playAgainButton" class="main-button play-again-button" type="button" hidden>Play Again</button>
+    </div>
+  </section>
+
+  <div id="finalLetterModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="finalLetterTitle">
+    <article class="focus-card simple-focus-card final-letter-card">
+      <button class="close-button" type="button" data-close aria-label="Close">x</button><p class="tiny-label">the end</p><h2 id="finalLetterTitle">One last thing...</h2>
+      <textarea id="finalLetterBody" class="envelope-letter-body" rows="8" spellcheck="false" readonly>I hope you liked this little adventure! I know you like Conan so I made you this! i hope it put a smile on your face, Love Denary </textarea>
+    </article>
+  </div>
+  <main>
+    <section id="startScreen" class="screen start-screen active" aria-label="Start screen">
+      <div class="start-window">
+        <p class="tiny-label">case file no. 1207</p>
+        <h1>SOLVE IT</h1>
+        <p class="intro-copy">A little birthday surprise :)</p>
+        <button id="playButton" class="main-button" type="button">Play</button>
+      </div>
+    </section>
+
+    <section id="deskScreen" class="screen desk-screen" aria-label="Mystery desk">
+      <header class="case-header">
+        <div>
+          <p class="tiny-label">Solve it</p>
+          <h2>My Desk</h2>
+        </div>
+      </header>
+
+      <aside class="case-steps" aria-label="Game steps and hints">
+        <h3>Case steps</h3>
+        <p id="caseStepsStatus" class="case-steps-status"></p>
+        <ol id="caseStepsList" aria-live="polite" aria-label="Current case tasks">
+          <!-- Tasks are populated by script.js so all three sets use the same structure. -->
+        </ol>
+      </aside>
+
+      <section class="desk" aria-label="Clickable desk items">
+        <button class="desk-item phone" type="button" data-modal="phoneModal" aria-label="Open phone">
+          <span class="phone-screen"></span>
+          <span class="item-label">phone</span>
+        </button>
+
+        <button class="desk-item notebook" type="button" data-modal="notebookModal" aria-label="Open notebook">
+          <span class="cover-corner"></span>
+          <span class="cover-title">Renad's<br>Notebook</span>
+          <span class="cover-sticker">?</span>
+          <span class="item-label">notebook</span>
+        </button>
+
+        <button id="deskPhoto" class="desk-item photo" type="button" data-modal="photoModal" aria-label="Inspect photo">
+          <span class="photo-image"></span>
+          <span class="photo-caption"></span>
+          <span id="deskPhotoClue" class="desk-photo-clue" hidden></span>
+          <span class="item-label">photo</span>
+        </button>
+
+        <button class="desk-item envelope" type="button" data-modal="envelopeModal" aria-label="Open envelope">
+          <span class="item-label">envelope</span>
+        </button>
+
+        <button class="desk-item charm" type="button" data-modal="charmModal" aria-label="Inspect charm">
+          <span class="star">*</span>
+          <span class="item-label">charm</span>
+        </button>
+
+        <button class="desk-item locked-box" type="button" data-modal="boxModal" aria-label="Open locked box">
+          <span class="lock-dot"></span>
+          <span class="item-label">locked box</span>
+        </button>
+      </section>
+    </section>
+  </main>
+
+  <div id="phoneModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="phoneTitle">
+    <article class="focus-card phone-card">
+      <button class="close-button" type="button" data-close aria-label="Close">x</button>
+      <div class="phone-shell">
+        <button id="wakePhone" class="phone-lock-screen" type="button" aria-label="Tap phone screen"></button>
+        <div id="phoneUnlock" class="phone-unlock" hidden>
+          <p class="phone-hint">enter 4 digit code</p>
+          <p class="phone-mini-hint"></p>
+          <div class="pin-display" aria-label="Entered phone code">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div id="phoneKeypad" class="phone-keypad" aria-label="Phone keypad"></div>
+          <p id="phoneStatus" class="puzzle-status" aria-live="polite"></p>
+        </div>
+        <div id="phoneHome" class="phone-home" hidden>
+          <div class="phone-home-top">
+            <span>12:07</span>
+            <span>teruuuuu</span>
+          </div>
+          <p class="phone-mini-hint"></p>
+          <div class="app-grid" aria-label="Phone home screen">
+            <button type="button" class="phone-app gallery-app" data-open-app="Gallery">Gallery</button>
+            <button type="button" class="phone-app notes-app" data-open-app="Notes">Notes</button>
+            <button type="button" class="phone-app whatsapp-app" data-open-app="WhatsApp">WhatsApp</button>
+            <button type="button" class="phone-app music-app" data-open-app="Music">Music</button>
+            <button type="button" class="phone-app instagram-app" data-login-app="Instagram">Instagram</button>
+            <button type="button" class="phone-app tiktok-app" data-login-app="TikTok">TikTok</button>
+          </div>
+        </div>
+        <div id="phoneLogin" class="phone-login" hidden>
+          <div class="phone-home-top">
+            <button id="phoneLoginBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span id="phoneLoginTitle">Login</span>
+            <button id="phoneLoginClose" class="phone-back-button" type="button" aria-label="Close login">x</button>
+          </div>
+          <form id="phoneLoginForm" class="phone-login-form" autocomplete="off">
+            <label for="phoneLoginUser">Username, email, or phone</label>
+            <input id="phoneLoginUser" name="user" type="text" inputmode="text" autocomplete="off" required>
+            <label for="phoneLoginPassword">Password</label>
+            <input id="phoneLoginPassword" name="password" type="password" autocomplete="new-password" required>
+            <button class="phone-login-button" type="submit">Login</button>
+            <p id="phoneLoginStatus" class="puzzle-status" aria-live="polite"></p>
+          </form>
+        </div>
+        <div id="galleryLockScreen" class="gallery-lock-screen" hidden>
+          <div class="phone-home-top gallery-top">
+            <button id="galleryLockBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span>Gallery</span>
+            <button id="galleryLockClose" class="phone-back-button" type="button" aria-label="Close Gallery">x</button>
+          </div>
+          <form id="galleryCodeForm" class="phone-login-form" autocomplete="off">
+            <label for="galleryCodeInput">Gallery code</label>
+            <p class="phone-mini-hint"></p>
+            <input id="galleryCodeInput" name="galleryCode" type="text" inputmode="text" autocomplete="off" required>
+            <button class="phone-login-button" type="submit">Open</button>
+            <p id="galleryCodeStatus" class="puzzle-status" aria-live="polite"></p>
+          </form>
+        </div>
+        <div id="galleryScreen" class="gallery-screen" hidden>
+          <div class="phone-home-top gallery-top">
+            <button id="galleryBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span>Photos</span>
+            <button id="galleryClose" class="phone-back-button" type="button" aria-label="Close Photos">x</button>
+          </div>
+          <div id="galleryGrid" class="gallery-grid" aria-label="Gallery photos and videos"></div>
+        </div>
+        <div id="tiktokScreen" class="tiktok-screen" hidden>
+          <div class="phone-home-top">
+            <button id="tiktokBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span>TikTok</span>
+            <button id="tiktokClose" class="phone-back-button" type="button" aria-label="Close TikTok">x</button>
+          </div>
+          
+          <div id="tiktokStage" class="tiktok-stage" aria-live="polite"></div>
+          <button id="tiktokNext" class="tiktok-next-button" type="button">scroll down</button>
+        </div>
+        <div id="whatsappScreen" class="whatsapp-screen" hidden>
+          <div class="phone-home-top whatsapp-top">
+            <button id="whatsappBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span>WhatsApp</span>
+            <button id="whatsappClose" class="phone-back-button" type="button" aria-label="Close WhatsApp">x</button>
+          </div>
+          <section id="whatsappGame" class="whatsapp-game" aria-label="WhatsApp questions game">
+            <p class="whatsapp-kicker"></p>
+            <p id="whatsappGameStatus" class="puzzle-status">Answer the questions to unlock chats.</p>
+            <p class="phone-mini-hint"></p>
+            <div id="whatsappBoard" class="whatsapp-board"></div>
+          </section>
+          <section id="whatsappChats" class="whatsapp-chats" hidden>
+            <div class="whatsapp-chat-list" aria-label="WhatsApp chats">
+              <button type="button" class="whatsapp-chat" data-chat="mom"><span class="chat-avatar">M</span><span><strong>mom</strong><small>Open chat</small></span></button>
+              <button type="button" class="whatsapp-chat" data-chat="dad"><span class="chat-avatar">D</span><span><strong>dad</strong><small>Open chat</small></span></button>
+              <button type="button" class="whatsapp-chat" data-chat="mariam"><span class="chat-avatar">M</span><span><strong>mariam</strong><small>Open chat</small></span></button>
+              <button type="button" class="whatsapp-chat" data-chat="basant"><span class="chat-avatar">B</span><span><strong>basant</strong><small>Open chat</small></span></button>
+            </div>
+            <article id="whatsappThread" class="whatsapp-thread" hidden>
+              <div class="whatsapp-thread-head">
+                <button id="whatsappThreadBack" class="phone-back-button" type="button" aria-label="Back to WhatsApp chats">&lt;</button>
+                <span class="chat-avatar" id="whatsappThreadAvatar">M</span>
+                <div>
+                  <h3 id="whatsappThreadName">mom</h3>
+                  <p id="whatsappThreadNote">online</p>
+                </div>
+              </div>
+              <div id="whatsappMessages" class="whatsapp-messages" aria-live="polite"></div>
+            </article>
+          </section>
+        </div>
+        <div id="instagramScreen" class="instagram-screen" hidden>
+          <div class="phone-home-top instagram-top">
+            <button id="instagramBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span>Instagram</span>
+            <button id="instagramClose" class="phone-back-button" type="button" aria-label="Close Instagram">x</button>
+          </div>
+          <div id="instagramFeed" class="instagram-feed" aria-live="polite"></div>
+        </div>
+        <div id="instagramLeafGame" class="instagram-leaf-game" hidden>
+          <div class="phone-home-top instagram-top">
+            <button id="leafGameBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span>Instagram</span>
+            <button id="leafGameClose" class="phone-back-button" type="button" aria-label="Close leaf game">x</button>
+          </div>
+          <div class="leaf-game-header">
+            <p class="leaf-game-kicker"></p>
+            <h3>Pick the different leaf</h3>
+            <p id="leafGameStatus">Round 1 of 10</p>
+            <p class="phone-mini-hint"></p>
+          </div>
+          <div id="leafGameBoard" class="leaf-game-board" aria-label="Pick the different shade"></div>
+        </div>
+        <div id="notesScreen" class="notes-screen" hidden>
+          <div class="phone-home-top notes-top">
+            <button id="notesBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span>Notes</span>
+            <button id="notesClose" class="phone-back-button" type="button" aria-label="Close Notes">x</button>
+          </div>
+          <article class="note-paper">
+            <p class="note-date">Today</p>
+            <h3 id="noteTitle">My Note</h3>
+            <p id="noteBody">Write your note here.</p>
+          </article>
+        </div>
+        <div id="musicScreen" class="music-screen" hidden>
+          <div class="phone-home-top music-top">
+            <button id="musicBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span>Music</span>
+            <button id="musicClose" class="phone-back-button" type="button" aria-label="Close Music">x</button>
+          </div>
+          <div class="music-now-playing">
+            <div id="musicCover" class="music-cover"></div>
+            <p id="musicTitle" class="music-title">Choose a song</p>
+            <p id="musicArtist" class="music-artist">Your playlist</p>
+            <audio id="musicAudio" controls></audio>
+          </div>
+          <div id="musicList" class="music-list" aria-label="Song list"></div>
+        </div>
+        <div id="pianoTilesScreen" class="piano-tiles-screen" hidden>
+          <div class="phone-home-top piano-top">
+            <button id="pianoBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span>Magic Tiles</span>
+            <button id="pianoClose" class="phone-back-button" type="button" aria-label="Close Piano Tiles">x</button>
+          </div>
+          <div class="magic-tiles-logo" aria-hidden="true">
+            <span>Magic</span>
+            <strong>Tiles</strong>
+          </div>
+          <div class="piano-score-row">
+            <span>Score <strong id="pianoScore">0</strong></span>
+            <span id="pianoCombo">Ready</span>
+          </div>
+          <p id="pianoStatus" class="piano-status">Finish the tiles to unlock Music.</p>
+          <p class="phone-mini-hint"></p>
+          <div id="pianoTilesBoard" class="piano-tiles-board" aria-label="Piano tiles mini game"></div>
+          <button id="pianoStart" class="piano-start-button" type="button">Tap to start</button>
+          <audio id="pianoSong" src="music/piano-tiles-song.mpeg"></audio>
+        </div>
+        <div id="pancakeGameScreen" class="pancake-game-screen" hidden>
+          <div class="phone-home-top pancake-top">
+            <button id="pancakeBack" class="phone-back-button" type="button" aria-label="Back to phone home">&lt;</button>
+            <span>Stack Pancakes</span>
+            <button id="pancakeClose" class="phone-back-button" type="button" aria-label="Close Pancake Game">x</button>
+          </div>
+          <div class="pancake-logo" aria-hidden="true">
+          </div>
+          <div class="pancake-score-row">
+            <span>Pancakes <strong id="pancakeCount">0</strong></span>
+            <span id="pancakeTarget">Target: 5</span>
+          </div>
+          <p id="pancakeStatus" class="pancake-status">Stack 5 pancakes to unlock Notes.</p>
+          <p class="phone-mini-hint"></p>
+          <div id="pancakeGame" class="pancake-game" aria-label="Pancake stacking mini game">
+            <canvas id="pancakeCanvas" width="400" height="500"></canvas>
+          </div>
+          <button id="pancakeStart" class="pancake-start-button" type="button">Tap to start</button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div id="notebookModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="notebookTitle">
+    <article class="focus-card notebook-preview">
+      <button class="close-button" type="button" data-close aria-label="Close">x</button>
+      <div class="open-notebook">
+        <section class="a5-page">
+          <p id="leftPageTitle" class="page-title"></p>
+          <p id="leftPageText" class="page-writing"></p>
+        </section>
+        <section class="a5-page">
+          <p id="rightPageTitle" class="page-title"></p>
+          <p id="rightPageText" class="page-writing"></p>
+        </section>
+      </div>
+      <div class="notebook-controls">
+        <button id="prevNotebookPage" class="small-button" type="button">Previous</button>
+        <p id="notebookPageCount" class="puzzle-status" aria-live="polite"></p>
+        <button id="nextNotebookPage" class="small-button" type="button">Next</button>
+      </div>
+    </article>
+  </div>
+
+  <div id="photoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="photoTitle">
+    <article class="focus-card photo-puzzle-card">
+      <button class="close-button" type="button" data-close aria-label="Close">x</button>
+      <p class="tiny-label">mini game 01</p>
+      <h2 id="photoTitle">Photo Puzzle</h2>
+      <p class="puzzle-copy">Swap two pieces at a time until the picture is whole again.</p>
+      <p class="hint-note"></p>
+      <div id="photoPuzzle" class="photo-puzzle" aria-label="Scrambled photo puzzle"></div>
+      <div class="puzzle-actions">
+        <button id="shufflePhoto" class="small-button" type="button">Shuffle</button>
+        <p id="photoPuzzleStatus" class="puzzle-status" aria-live="polite">The clue is hidden inside the finished photo.</p>
+      </div>
+    </article>
+  </div>
+
+  <div id="envelopeModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="envelopeTitle">
+    <article class="focus-card simple-focus-card">
+      <button class="close-button" type="button" data-close aria-label="Close">x</button>
+      <p class="tiny-label">item found</p>
+      <h2 id="envelopeTitle">Envelope</h2>
+      <p>A sealed envelope with a password lock.</p>
+      <form id="envelopePasswordForm" class="box-password-form" autocomplete="off">
+        <label for="envelopePasswordInput">Password</label>
+        <input id="envelopePasswordInput" type="password" autocomplete="new-password" required>
+        <button class="small-button" type="submit">Open Envelope</button>
+        <p id="envelopePasswordStatus" class="puzzle-status" aria-live="polite"></p>
+      </form>
+      <div id="envelopeContent" class="envelope-content" hidden>
+        <label for="envelopeLetterBody" class="tiny-label">letter</label>
+        <textarea id="envelopeLetterBody" class="envelope-letter-body" rows="8" spellcheck="false">
+
+
+I knew you could solve all the riddles! I wrote this in a hurry because I didn't have much time, come to Mariams house 
+
+- R</textarea>
+        <button id="goToLocationButton" class="main-button location-button" type="button">Go to location</button>
+      </div>
+    </article>
+  </div>
+
+  <div id="charmModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="charmTitle">
+    <article class="focus-card simple-focus-card">
+      <button class="close-button" type="button" data-close aria-label="Close">x</button>
+      <p class="tiny-label">item found</p>
+      <h2 id="charmTitle">Lucky Charm</h2>
+      <div id="charmInscription" class="charm-inscription" hidden>
+        <p class="charm-text">"A star for my star"</p>
+        <p class="charm-hint"></p>
+      </div>
+      <button id="inspectCharm" class="small-button" type="button">Inspect Charm</button>
+    </article>
+  </div>
+
+  <div id="boxModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="boxTitle">
+    <article class="focus-card simple-focus-card box-card">
+      <button class="close-button" type="button" data-close aria-label="Close">x</button>
+      <p class="tiny-label">final item</p>
+      <h2 id="boxTitle">Locked Box</h2>
+      <p class="hint-note"></p>
+      <form id="boxPasswordForm" class="box-password-form" autocomplete="off">
+        <label for="boxPasswordInput">Password</label>
+        <input id="boxPasswordInput" type="password" autocomplete="new-password" required>
+        <button class="small-button" type="submit">Unlock</button>
+        <p id="boxPasswordStatus" class="puzzle-status" aria-live="polite"></p>
+      </form>
+      <div id="boxReward" class="box-reward" hidden>
+        <button id="pendantButton" class="pendant-button" type="button" aria-label="Open necklace pendant">
+          <span class="necklace-chain"></span>
+          <span class="pendant">
+            <span id="pendantPhoto" class="pendant-photo"></span>
+          </span>
+          <span class="pendant-label">open pendant</span>
+        </button>
+        <article class="gallery-code-paper">
+          <p class="tiny-label">paper clue</p>
+          <p>Gallery code: <strong id="boxGalleryCode">0000</strong></p>
+        </article>
+      </div>
+    </article>
+  </div>
+</body>
+</html>
